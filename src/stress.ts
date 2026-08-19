@@ -50,7 +50,7 @@ interface TestSummary {
 }
 
 // Orchestrator function to run the load test
-async function runLoadTest(config: LoadTestConfig): Promise<TestSummary> {
+export async function runLoadTest(config: LoadTestConfig): Promise<TestSummary> {
   const results: RequestResult[] = [];
   console.log(`Starting stress test against ${config.targetUrl} with ${config.totalRequests} total requests (Concurrency: ${config.concurrencyLimit})...\n`);
 

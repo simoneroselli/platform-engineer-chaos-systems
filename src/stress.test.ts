@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { computeSummary } from './stress';
+import { runLoadTest } from './stress';
 
 // Imagine computeSummary is imported or available in this file
 // Let's test the math logic directly
@@ -23,6 +24,36 @@ describe('Stress Test Summary Calculations', () => {
     expect(summary.averageLatencyMs).toBe(267); // (100 + 200 + 500) / 3 = 266.66... rounded
     expect(summary.minLatencyMs).toBe(100);
     expect(summary.maxLatencyMs).toBe(500);
+  });
+});
+
+describe('runLoadTest Orchestrator', () => {
+  
+  it('should successfully coordinate batch requests and return a valid summary', async () => {
+    // 1. Arrange: Mock global fetch so it doesn't hit a real server
+    // We tell fetch: "Whenever called, return a fake 200 OK response"
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+    });
+
+    // Define a small test config to keep things fast
+    const testConfig = {
+      targetUrl: "http://localhost:8080",
+      totalRequests: 4,
+      concurrencyLimit: 2
+    };
+
+    // 2. Act: Run the orchestrator function
+    const summary = await runLoadTest(testConfig);
+
+    // 3. Assert: Check that orchestration handled all requests correctly
+    expect(summary.totalRequests).toBe(4);
+    expect(summary.successfulRequests).toBe(4);
+    expect(summary.failedRequests).toBe(0);
+    
+    // Verify our mocked fetch was actually called 4 times
+    expect(global.fetch).toHaveBeenCalledTimes(4);
   });
 
 });
