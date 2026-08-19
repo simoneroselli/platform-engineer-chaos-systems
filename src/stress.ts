@@ -73,7 +73,7 @@ async function runLoadTest(config: LoadTestConfig): Promise<TestSummary> {
 }
 
 // Helper to calculate statistics
-function computeSummary(results: RequestResult[]): TestSummary {
+export function computeSummary(results: RequestResult[]): TestSummary {
   const successful = results.filter(r => r.success);
   const failed = results.filter(r => !r.success);
   const latencies = results.map(r => r.latencyMs);
