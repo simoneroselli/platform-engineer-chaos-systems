@@ -4,6 +4,7 @@ set -e
 
 CLUSTER_NAME=chaos
 API_PORT=6443
+ARGO_APPSET_VERSION=0.4.0
 
 # =============================================================================
 # Binary Verification Helper Function
@@ -48,3 +49,5 @@ echo "Installing ArgoCD CRD..."
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 echo "Installing ArgoCD App..."
 kubectl apply -f bootstrap/gitops/argocd.yaml
+echo "Installing ArgoCD ApplicationSet CRD..."
+kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/applicationset/v${ARGO_APPSET_VERSION}/manifests/install.yaml
