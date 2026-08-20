@@ -35,19 +35,6 @@ echo "✓ k3d cluster created successfully"
 echo ""
 
 # =============================================================================
-# Apply Nginx Manifests
-# =============================================================================
-echo "Applying manifests..."
-if [[ -d "manifests" ]]; then
-    kubectl apply -f manifests/
-    echo "✓ Nginx manifests applied successfully"
-else
-    echo "ERROR: manifests directory not found. Please ensure you are running this script from the project root."
-    exit 1
-fi
-echo ""
-
-# =============================================================================
 # Setup Complete
 # =============================================================================
-echo "Nginx setup completed successfully!"
+echo "k3d cluster setup completed successfully!"
