@@ -7,7 +7,7 @@ metadata:
     app: '{{ .Values.appFullname }}'
     tier: frontend
 spec:
-  replicas: {{ .Values.app.api.replicaCount }}
+  replicas: {{ .Values.app.frontend.replicaCount }}
   selector:
     matchLabels:
       app: '{{ .Values.appFullname }}-frontend'
@@ -36,12 +36,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: '{{ .Values.appFullname }}-frontend'
+  name: '{{ .Values.appFullname }}-frontend-svc'
 spec:
   type: NodePort
   ports:
-  - port: 80
-    targetPort: 80
-    nodePort: 30000
+  - port: {{ .Values.svc.frontend.port }}
+    targetPort: {{ .Values.svc.frontend.targetPort }}
+    nodePort: {{ .Values.svc.frontend.nodePort }}
   selector:
     app: '{{ .Values.appFullname }}-frontend'
