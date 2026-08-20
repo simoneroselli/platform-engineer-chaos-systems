@@ -1,0 +1,9 @@
+appFullname: votepoll-test-app
+version: 0.1.0
+app:
+  frontend:
+    replicaCount: 1
+    container:
+      tag: before
+      port: 80
+ 
