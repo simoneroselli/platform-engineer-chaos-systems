@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: '{{ .Values.appFullname }}-redis'
+  namespace: '{{ .Values.appFullname }}'
+  labels:
+    app: '{{ .Values.appFullname }}'
+    tier: redis
+spec:
+  replicas: {{ .Values.app.redis.replicaCount }}
+  selector:
+    matchLabels:
+      app: '{{ .Values.appFullname }}-redis'
+  template:
+    metadata:
+      labels:
+        app: '{{ .Values.appFullname }}-redis'
+    spec:
+      containers:
+      - name: frontend
+        image: '{{ .Values.app.redis.container.repository }}:{{ .Values.app.redis.container.tag }}'
+        ports:
+        - containerPort: {{ .Values.app.redis.container.port }}
+          name: redis
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: '{{ .Values.appFullname }}-redis-svc'
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    app: redis
