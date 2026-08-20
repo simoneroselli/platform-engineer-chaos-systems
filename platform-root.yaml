@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: votepoll-workloads-set
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - env: testing
+            valuesFile: platform-workloads/envs/test/values.yaml
+            namespace: votepoll-test-app
+          - env: production
+            valuesFile: platform-workloads/envs/prod/values.yaml
+            namespace: votepoll-prod-app
+  template:
+    metadata:
+      name: 'votepoll-{{env}}-app'
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/simoneroselli/platform-engineer-chaos-systems.git'
+        targetRevision: HEAD
+        path: platform-workloads/charts/votepoll
+        helm:
+          valueFiles:
+            - /{{valuesFile}}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
