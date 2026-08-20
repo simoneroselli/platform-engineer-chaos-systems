@@ -2,7 +2,7 @@
 
 set -e
 
-CLUSTER_NAME=stress
+CLUSTER_NAME=chaos
 API_PORT=6443
 
 # =============================================================================
@@ -38,3 +38,13 @@ echo ""
 # Setup Complete
 # =============================================================================
 echo "k3d cluster setup completed successfully!"
+
+# =============================================================================
+# Setup Argo CD Namespace and Resources
+# =============================================================================
+echo "Creating Kubernetes namespace 'argocd'..."
+kubectl create namespace argocd
+echo "Installing ArgoCD CRD..."
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+echo "Installing ArgoCD App..."
+kubectl apply -f bootstrap/gitops/argocd.yaml
