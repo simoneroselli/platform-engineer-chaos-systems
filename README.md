@@ -4,7 +4,7 @@ A local stress test toolkit for the various stack.
 
 ## 📋 Project Overview
 
-**platform-engineer-ts-toolkit** is a TypeScript-based HTTP load testing and stress testing framework. It provides tools to measure application performance under load by simulating concurrent requests, measuring latency, and generating comprehensive test summaries. This toolkit is designed for platform engineers to validate application performance and infrastructure capacity.
+**platform-engineer-ts-toolkit** is a TypeScript-based HTTP load testing and stress testing framework. It provides tools to measure application performance under load by simulating concurrent requests, measuring latency, and generating comprehensive test summaries. This toolkit is designed to validate application performance and infrastructure capacity.
 
 ### Key Features
 - **HTTP Load Testing**: Send configurable concurrent requests to target endpoints
