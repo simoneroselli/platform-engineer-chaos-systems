@@ -24,11 +24,11 @@ spec:
           name: redis
         resources:
           limits:
-            cpu: "200m"
-            memory: "256Mi"
+            cpu: '{{ .Values.app.redis.resources.limits.cpu }}'
+            memory: '{{ .Values.app.redis.resources.limits.memory }}'
           requests:
-            cpu: "100m"
-            memory: "128Mi"
+            cpu: '{{ .Values.app.redis.resources.requests.cpu }}'
+            memory: '{{ .Values.app.redis.resources.requests.memory }}'
 ---
 apiVersion: v1
 kind: Service
@@ -36,7 +36,7 @@ metadata:
   name: '{{ .Values.appFullname }}-redis-svc'
 spec:
   ports:
-  - port: 6379
-    targetPort: 6379
+  - port: {{ .Values.svc.redis.port }}
+    targetPort: {{ .Values.svc.redis.targetPort }}
   selector:
     app: redis

@@ -6,9 +6,20 @@ app:
     container:
       tag: before
       port: 80
+  redis:
+    resources:
+      limits:
+        cpu: "200m"
+        memory: "256Mi"
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
  
 svc:
   frontend:
     port: 80
     targetPort: 80
     nodePort: 30001
+  redis:
+    port: 6379
+    targetPort: 6379
