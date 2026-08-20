@@ -20,7 +20,7 @@ spec:
       - name: frontend
         image: '{{ .Values.app.frontend.container.repository }}:{{ .Values.app.frontend.container.tag }}'
         ports:
-        - containerPort: '{{ .Values.app.frontend.container.port }}'
+        - containerPort: {{ .Values.app.frontend.container.port }}
           name: http
         env:
         - name: REDIS_HOST
